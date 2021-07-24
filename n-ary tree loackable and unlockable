@@ -1,0 +1,94 @@
+class treeNode
+{
+    
+    boolean isLock;
+    boolean isLockable;
+    treeNode parent;
+    ArrayList<treeNode> children = new ArrayList<treeNode>();
+    
+    treeNode()
+    {
+        isLock = false;
+        isLockable = true;
+        
+    }
+    treeNode(treeNode parent)
+    {
+        isLock = false;
+        isLockable = true;
+        this.parent = parent;
+    }
+    
+    
+    
+}
+
+public class MyClass {
+    public static void main(String args[]) {
+      
+      treeNode root = new treeNode();
+      treeNode t1 = new treeNode(root);
+      treeNode t2 = new treeNode(root);
+      treeNode t3 = new treeNode(root);
+      
+      root.children.add(t1);
+      root.children.add(t2);
+      root.children.add(t3);
+      
+      treeNode t4 = new treeNode(t2);
+      t2.children.add(t4);
+      
+      treeNode t5 = new treeNode(t1);
+      t1.children.add(t5);
+      
+      Lock(t4);
+      
+      
+    }
+    
+    static boolean isLock(treeNode node)
+    {
+        return node.isLock;
+    }
+    
+    static void Lock(treeNode node)
+    {
+        if(node.isLockable == false)
+        {
+            System.out.println("Node is already Locked");
+            return;
+        }
+        
+        treeNode t = node;
+        boolean flag = false;
+        while(t != null)
+        {
+            if(t.isLock == true)
+            {
+                flag = true;
+                break;
+            }
+            t = t.parent;
+        }
+        if(flag == true)
+        {
+            System.out.println("Node Cannot be Locked,It's one of the Ancestors are locked");
+            return;
+        }
+        else
+        {
+            treeNode t = node;
+            node.isLock = true;
+            System.out.println("Node is Locked");
+            while(t != null)
+            {
+                t.isLockable = false;
+                t = t.parent;
+            }
+            
+        }
+        return;
+        
+        
+    }
+}
